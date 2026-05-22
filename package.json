@@ -1,0 +1,16 @@
+{
+  "name": "ticketing-assessment",
+  "version": "1.0.0",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:api": "npm run start:dev --workspace=api",
+    "dev:web": "npm run start:dev --workspace=web",
+    "dev": "concurrently \"npm run dev:api\" \"npm run dev:web\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
