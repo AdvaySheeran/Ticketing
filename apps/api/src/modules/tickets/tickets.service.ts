@@ -8,20 +8,32 @@ import { CreateTicketDto } from './dto/create-ticket.dto';
 import { Role } from '@prisma/client';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
 import { AssignTicketDto } from './dto/assign-ticket.dto';
+import { NotificationsService } from '../notifications/notifications.service';
 
 @Injectable()
 export class TicketsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private notificationsService: NotificationsService,
+  ) {}
 
-  create(userId: number, dto: CreateTicketDto) {
-    return this.prisma.ticket.create({
+  async create(userId: number, dto: CreateTicketDto) {
+    const ticket = await this.prisma.ticket.create({
       data: {
         subject: dto.subject,
         description: dto.description,
         priority: dto.priority,
         createdById: userId,
       },
+      include: {
+        createdBy: { select: { id: true, name: true, email: true } },
+      },
     });
+    await this.notificationsService.sendTicketCreated(
+      ticket.createdBy.email,
+      ticket.subject,
+    );
+    return ticket;
   }
 
   findAll(user: { id: number; role: Role }) {
@@ -68,10 +80,20 @@ export class TicketsService {
       throw new ForbiddenException('Not your ticket');
     }
 
-    return this.prisma.ticket.update({
+    const updatedTicket = await this.prisma.ticket.update({
       where: { id },
       data: { status: dto.status },
+      include: {
+        createdBy: { select: { id: true, name: true, email: true } },
+      },
     });
+    if (dto.status === 'CLOSED') {
+      await this.notificationsService.sendTicketCreated(
+        ticket.createdBy.email,
+        ticket.subject,
+      );
+    }
+    return updatedTicket;
   }
 
   async assign(
@@ -83,9 +105,19 @@ export class TicketsService {
       throw new ForbiddenException('Customers cannot assign tickets');
     }
     await this.findOne(id);
-    return this.prisma.ticket.update({
+    const updatedTIcket = await this.prisma.ticket.update({
       where: { id },
       data: { assignedToId: dto.agentId },
+      include: {
+        createdBy: { select: { id: true, name: true, email: true } },
+      },
     });
+    if (updatedTIcket.assignedToId) {
+      await this.notificationsService.sendTicketCreated(
+        updatedTIcket.createdBy.email,
+        updatedTIcket.subject,
+      );
+    }
+    return updatedTIcket;
   }
 }
