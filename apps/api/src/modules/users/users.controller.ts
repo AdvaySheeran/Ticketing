@@ -4,7 +4,10 @@ import { RolesGuard } from 'src/common/guards/roles.guard';
 import { UsersService } from './users.service';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { Role } from '@prisma/client';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('users')
+@ApiBearerAuth()
 @UseGuards(JwtGuard, RolesGuard)
 @Controller('users')
 export class UsersController {

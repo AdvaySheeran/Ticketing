@@ -17,7 +17,10 @@ import { Role } from '@prisma/client';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { AssignTicketDto } from './dto/assign-ticket.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('tickets')
+@ApiBearerAuth()
 @UseGuards(JwtGuard, RolesGuard)
 @Controller('tickets')
 export class TicketsController {

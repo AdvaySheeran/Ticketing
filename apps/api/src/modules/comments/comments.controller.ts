@@ -12,7 +12,10 @@ import { CommentsService } from './comments.service';
 import { CreateCommentsDto } from './dto/create-comments.dto';
 import { GetUser } from 'src/common/decorators/get-user.decorator';
 import { Role } from '@prisma/client';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('comments')
+@ApiBearerAuth()
 @UseGuards(JwtGuard)
 @Controller('tickets/:ticketId/comments')
 export class CommentsController {
