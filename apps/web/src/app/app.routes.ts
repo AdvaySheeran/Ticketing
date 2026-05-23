@@ -1,0 +1,39 @@
+import { Routes } from '@angular/router';
+import { authGuard } from './core/guards/auth.guard';
+import { roleGuard } from './core/guards/role.guard';
+
+export const routes: Routes = [
+    {
+        path:'',
+        redirectTo: 'tickets',
+        pathMatch: 'full'
+    },
+    {
+        path: 'login',
+        loadComponent: () => import('./features/auth/login/login.component').then(m => m.LoginComponent)
+    },
+    // {
+    //     path: 'tickets',
+    //     canActivate: [authGuard],
+    //     loadChildren: () => import('./features/tickets/ticket-list/ticket-list.component').then(m => m.TicketListComponent)
+    // },
+    // {
+    //     path: 'tickets/create',
+    //     canActivate: [authGuard],
+    //     loadChildren: () => import('./features/tickets/ticket-create/ticket-create.component').then(m => m.TicketCreateComponent)
+    // },
+    // {
+    //     path: 'tickets/:id',
+    //     canActivate: [authGuard],
+    //     loadChildren: () => import('./features/tickets/ticket-details/ticket-details.component').then(m => m.TicketDetailsComponent)
+    // },
+    // {
+    //     path: 'admin/users',
+    //     canActivate: [authGuard, roleGuard(['ADMIN'])],
+    //     loadChildren: () => import('./features/admin/user-management/user-management.component').then(m => m.UsermanagementComponent)
+    // },
+    {
+        path: '**',
+        redirectTo: 'tickets'
+    }
+];
