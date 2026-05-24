@@ -79,3 +79,17 @@ button {
     background: #4338ca;
   }
 }
+
+
+.switch {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+
+  a {
+    color: #4f46e5;
+    text-decoration: none;
+    &:hover { text-decoration: underline; }
+  }
+}
