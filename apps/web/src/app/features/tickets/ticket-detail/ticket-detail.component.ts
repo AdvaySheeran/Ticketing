@@ -90,4 +90,10 @@ export class TicketDetailComponent implements OnInit {
       error: () => this.submittingComment.set(false)
     });
   }
+
+  getAvailableStatuses(): string[] {
+    const role = this.authService.getRole();
+    if (role === 'CUSTOMER') return ['CLOSED'];
+    return this.statuses;
+  }
 }

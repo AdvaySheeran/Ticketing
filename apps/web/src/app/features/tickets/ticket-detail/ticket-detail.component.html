@@ -3,17 +3,17 @@
     <p>Loading...</p>
   }
 
-  @if (error()) {
-    <div class="error">{{ error() }}</div>
-  }
 
   @if (ticket()) {
     <div class="page-header">
-      <div>
-        <a routerLink="/tickets">← Back</a>
         <h1>{{ ticket()!.subject }}</h1>
-      </div>
+        @if (error()) {
+            <div class="error">{{ error() }}</div>
+        }
+        <a routerLink="/tickets">← Back</a>
     </div>
+
+    
 
     <div class="layout">
       <div class="main">
@@ -62,8 +62,8 @@
               [value]="ticket()!.status"
               (change)="updateStatus($any($event.target).value)"
             >
-              @for (s of statuses; track s) {
-                <option [value]="s">{{ s }}</option>
+              @for (s of getAvailableStatuses(); track s) {
+                <option [value]="s" [selected]="ticket()!.status === s">{{ s }}</option>
               }
             </select>
           </div>
@@ -94,16 +94,9 @@
               >
                 <option value="">Unassigned</option>
                 @for (agent of agents(); track agent.id) {
-                  <option [value]="agent.id">{{ agent.name }}</option>
+                  <option [value]="agent.id" [selected]="ticket()!.assignedToId === agent.id">{{ agent.name }}</option>
                 }
               </select>
-            </div>
-          }
-
-          @if (ticket()!.assignedTo) {
-            <div class="detail-row">
-              <span>Assigned to</span>
-              <span>{{ ticket()!.assignedTo!.name }}</span>
             </div>
           }
         </div>

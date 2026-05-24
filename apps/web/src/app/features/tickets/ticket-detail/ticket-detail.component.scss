@@ -4,21 +4,17 @@
   margin: 0 auto;
 }
 
+
 .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 1.5rem;
 
-  a {
-    color: #4f46e5;
-    text-decoration: none;
-    font-size: 0.875rem;
-  }
-
-  h1 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-top: 0.5rem;
-  }
+  h1 { font-size: 1.5rem; font-weight: 600; }
+  a { color: #4f46e5; text-decoration: none; font-size: 0.875rem; }
 }
+
 
 .layout {
   display: grid;
