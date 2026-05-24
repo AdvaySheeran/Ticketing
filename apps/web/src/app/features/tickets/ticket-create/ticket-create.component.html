@@ -1,0 +1,56 @@
+<div class="page">
+  <div class="page-header">
+    <h1>New Ticket</h1>
+    <a routerLink="/tickets">Back to tickets</a>
+  </div>
+
+  @if (error()) {
+    <div class="error">{{ error() }}</div>
+  }
+
+  <div class="form-card">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="field">
+        <label for="subject">Subject</label>
+        <input
+          id="subject"
+          type="text"
+          formControlName="subject"
+          placeholder="Brief description of the issue"
+        />
+        @if (form.get('subject')?.invalid && form.get('subject')?.touched) {
+          <span class="field-error">Minimum 5 characters required</span>
+        }
+      </div>
+
+      <div class="field">
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          formControlName="description"
+          rows="5"
+          placeholder="Detailed description of the issue"
+        ></textarea>
+        @if (form.get('description')?.invalid && form.get('description')?.touched) {
+          <span class="field-error">Minimum 10 characters required</span>
+        }
+      </div>
+
+      <div class="field">
+        <label for="priority">Priority</label>
+        <select id="priority" formControlName="priority">
+          <option value="LOW">Low</option>
+          <option value="MEDIUM">Medium</option>
+          <option value="HIGH">High</option>
+        </select>
+      </div>
+
+      <div class="actions">
+        <a routerLink="/tickets">Cancel</a>
+        <button type="submit" [disabled]="loading() || form.invalid">
+          {{ loading() ? 'Creating...' : 'Create Ticket' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

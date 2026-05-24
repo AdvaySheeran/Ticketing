@@ -17,11 +17,11 @@ export const routes: Routes = [
         canActivate: [authGuard],
         loadComponent: () => import('./features/tickets/ticket-list/ticket-list.component').then(m => m.TicketListComponent)
     },
-    // {
-    //     path: 'tickets/create',
-    //     canActivate: [authGuard],
-    //     loadComponent: () => import('./features/tickets/ticket-create/ticket-create.component').then(m => m.TicketCreateComponent)
-    // },
+    {
+        path: 'tickets/create',
+        canActivate: [authGuard],
+        loadComponent: () => import('./features/tickets/ticket-create/ticket-create.component').then(m => m.TicketCreateComponent)
+    },
     // {
     //     path: 'tickets/:id',
     //     canActivate: [authGuard],
