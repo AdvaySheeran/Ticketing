@@ -12,25 +12,25 @@ export const routes: Routes = [
         path: 'login',
         loadComponent: () => import('./features/auth/login/login.component').then(m => m.LoginComponent)
     },
-    // {
-    //     path: 'tickets',
-    //     canActivate: [authGuard],
-    //     loadChildren: () => import('./features/tickets/ticket-list/ticket-list.component').then(m => m.TicketListComponent)
-    // },
+    {
+        path: 'tickets',
+        canActivate: [authGuard],
+        loadComponent: () => import('./features/tickets/ticket-list/ticket-list.component').then(m => m.TicketListComponent)
+    },
     // {
     //     path: 'tickets/create',
     //     canActivate: [authGuard],
-    //     loadChildren: () => import('./features/tickets/ticket-create/ticket-create.component').then(m => m.TicketCreateComponent)
+    //     loadComponent: () => import('./features/tickets/ticket-create/ticket-create.component').then(m => m.TicketCreateComponent)
     // },
     // {
     //     path: 'tickets/:id',
     //     canActivate: [authGuard],
-    //     loadChildren: () => import('./features/tickets/ticket-details/ticket-details.component').then(m => m.TicketDetailsComponent)
+    //     loadComponent: () => import('./features/tickets/ticket-details/ticket-details.component').then(m => m.TicketDetailsComponent)
     // },
     // {
     //     path: 'admin/users',
     //     canActivate: [authGuard, roleGuard(['ADMIN'])],
-    //     loadChildren: () => import('./features/admin/user-management/user-management.component').then(m => m.UsermanagementComponent)
+    //     loadComponent: () => import('./features/admin/user-management/user-management.component').then(m => m.UsermanagementComponent)
     // },
     {
         path: '**',
