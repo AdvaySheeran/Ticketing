@@ -22,11 +22,11 @@ export const routes: Routes = [
         canActivate: [authGuard],
         loadComponent: () => import('./features/tickets/ticket-create/ticket-create.component').then(m => m.TicketCreateComponent)
     },
-    // {
-    //     path: 'tickets/:id',
-    //     canActivate: [authGuard],
-    //     loadComponent: () => import('./features/tickets/ticket-details/ticket-details.component').then(m => m.TicketDetailsComponent)
-    // },
+    {
+        path: 'tickets/:id',
+        canActivate: [authGuard],
+        loadComponent: () => import('./features/tickets/ticket-detail/ticket-detail.component').then(m => m.TicketDetailComponent)
+    },
     // {
     //     path: 'admin/users',
     //     canActivate: [authGuard, roleGuard(['ADMIN'])],

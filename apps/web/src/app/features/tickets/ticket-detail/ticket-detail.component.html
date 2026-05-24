@@ -1,0 +1,113 @@
+<div class="page">
+  @if (loading()) {
+    <p>Loading...</p>
+  }
+
+  @if (error()) {
+    <div class="error">{{ error() }}</div>
+  }
+
+  @if (ticket()) {
+    <div class="page-header">
+      <div>
+        <a routerLink="/tickets">← Back</a>
+        <h1>{{ ticket()!.subject }}</h1>
+      </div>
+    </div>
+
+    <div class="layout">
+      <div class="main">
+        <div class="card">
+          <h2>Description</h2>
+          <p>{{ ticket()!.description }}</p>
+        </div>
+
+        <div class="card">
+          <h2>Comments</h2>
+
+          @if (ticket()!.comments.length === 0) {
+            <p class="empty">No comments yet.</p>
+          }
+
+          @for (comment of ticket()!.comments; track comment.id) {
+            <div class="comment">
+              <div class="comment-header">
+                <span class="comment-author">{{ comment.author.name }}</span>
+                <span class="comment-date">{{ comment.createdAt | date: 'medium' }}</span>
+              </div>
+              <p>{{ comment.body }}</p>
+            </div>
+          }
+
+          <form [formGroup]="commentForm" (ngSubmit)="addComment()" class="comment-form">
+            <textarea
+              formControlName="body"
+              rows="3"
+              placeholder="Add a comment..."
+            ></textarea>
+            <button type="submit" [disabled]="commentForm.invalid || submittingComment()">
+              {{ submittingComment() ? 'Posting...' : 'Post Comment' }}
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="sidebar">
+        <div class="card">
+          <h2>Details</h2>
+
+          <div class="detail-row">
+            <span>Status</span>
+            <select
+              [value]="ticket()!.status"
+              (change)="updateStatus($any($event.target).value)"
+            >
+              @for (s of statuses; track s) {
+                <option [value]="s">{{ s }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="detail-row">
+            <span>Priority</span>
+            <span class="badge badge-{{ ticket()!.priority | lowercase }}">
+              {{ ticket()!.priority }}
+            </span>
+          </div>
+
+          <div class="detail-row">
+            <span>Created by</span>
+            <span>{{ ticket()!.createdBy.name }}</span>
+          </div>
+
+          <div class="detail-row">
+            <span>Created</span>
+            <span>{{ ticket()!.createdAt | date: 'mediumDate' }}</span>
+          </div>
+
+          @if (authService.getRole() !== 'CUSTOMER') {
+            <div class="detail-row">
+              <span>Assign to</span>
+              <select
+                [value]="ticket()!.assignedToId ?? ''"
+                (change)="assign($any($event.target).value)"
+              >
+                <option value="">Unassigned</option>
+                @for (agent of agents(); track agent.id) {
+                  <option [value]="agent.id">{{ agent.name }}</option>
+                }
+              </select>
+            </div>
+          }
+
+          @if (ticket()!.assignedTo) {
+            <div class="detail-row">
+              <span>Assigned to</span>
+              <span>{{ ticket()!.assignedTo!.name }}</span>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  }
+</div>
