@@ -27,11 +27,11 @@ export const routes: Routes = [
         canActivate: [authGuard],
         loadComponent: () => import('./features/tickets/ticket-detail/ticket-detail.component').then(m => m.TicketDetailComponent)
     },
-    // {
-    //     path: 'admin/users',
-    //     canActivate: [authGuard, roleGuard(['ADMIN'])],
-    //     loadComponent: () => import('./features/admin/user-management/user-management.component').then(m => m.UsermanagementComponent)
-    // },
+    {
+        path: 'admin/users',
+        canActivate: [authGuard, roleGuard(['ADMIN'])],
+        loadComponent: () => import('./features/admin/user-management/user-management.component').then(m => m.UserManagementComponent)
+    },
     {
         path: '**',
         redirectTo: 'tickets'

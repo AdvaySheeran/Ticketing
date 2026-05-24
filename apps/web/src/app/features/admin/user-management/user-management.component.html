@@ -1,0 +1,64 @@
+<div class="page">
+  <div class="page-header">
+    <h1>User Management</h1>
+
+    @if (success()) {
+    <div class="success">{{ success() }}</div>
+  }
+  
+    <a routerLink="/tickets">Back to tickets</a>
+    
+  </div>
+
+  @if (loading()) {
+    <p>Loading...</p>
+  }
+
+  @if (error()) {
+    <div class="error">{{ error() }}</div>
+  }
+
+  @if (!loading() && users().length > 0) {
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Joined</th>
+          <th>Change Role</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (user of users(); track user.id) {
+          <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+              <span class="badge badge-{{ user.role | lowercase }}">
+                {{ user.role }}
+              </span>
+            </td>
+            <td>{{ user.createdAt | date: 'mediumDate' }}</td>
+            <td>
+                @if (isSelf(user.id)) {
+                <span>You</span>
+                } @else {
+              <select
+                [value]="user.role"
+                (change)="updateRole(user.id, $any($event.target).value)"
+              >
+                @for (role of roles; track role) {
+                  <option [value]="role" [selected]="role === user.role">{{ role }}</option>
+                }
+              </select>
+            }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>
