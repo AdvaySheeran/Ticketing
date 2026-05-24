@@ -16,7 +16,7 @@ Ticket Management System built with Angular, NestJS, Prisma, PostgreSQL and JWT 
 
 ## Prerequisites
 
-- Node.js 20+
+- Node.js 22.12+
 - Docker Desktop
 - npm 9+
 
@@ -52,7 +52,7 @@ SMTP_PASS="your_gmail_app_password"
 docker-compose up -d
 ```
 
-### 4. Install dependencies
+### 4. Install backend dependencies
 
 ```bash
 cd apps/api
@@ -75,26 +75,33 @@ API runs at: `http://localhost:3000`
 
 Swagger docs at: `http://localhost:3000/api/docs`
 
-### 7. Register default admin user via Swagger
+### 7. Generate prisma client and Seed the data
 
-Open `http://localhost:3000/api/docs` and register:
+````bash
+cd apps/api
+npx prisma generate
+npx prisma db seed
+````
 
-| Email | Password | Name |
-|---|---|---|
-| admin@test.com | password123 | Admin User |
 
-Then set admin role:
+### 8. Install frontend dependencies
 
 ```bash
-docker exec -it $(docker ps -qf "name=postgres") psql -U postgres -d ticketing -c "UPDATE \"User\" SET role = 'ADMIN' WHERE email = 'admin@test.com';"
+cd apps/web
+npm install
 ```
 
-Admin can manage all other user roles via `PATCH /users/:id/role`.
+### 9. Start the frontend
 
-> Seed file coming soon — will automate this step.
+```bash
+npm start
+```
 
----
+Frontend: `http://localhost:4200`
 
-## Frontend
+#### Run Fronend and Backend Together
 
-> In progress — Angular 21 setup coming soon.
+From project root:
+```bash
+npm run dev
+```
