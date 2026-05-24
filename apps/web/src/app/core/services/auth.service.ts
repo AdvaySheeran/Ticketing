@@ -62,4 +62,14 @@ export class AuthService {
   getRole() {
     return this.currentUser()?.role;
   }
+
+  register(name: string, email: string, password: string) {
+    return this.http.post<{ access_token: string }>
+    (`${this.apiUrl}/auth/register`, { name, email, password }).pipe(
+      tap(res => {
+        this.tokenService.setToken(res.access_token);
+        this.decodeAndSetUser(res.access_token);
+      })
+    );
+  }
 }

@@ -1,0 +1,59 @@
+<div class="login-container">
+  <div class="login-card">
+    <h1>Ticketing Tool</h1>
+    <h2>Create account</h2>
+
+    @if (error()) {
+      <div class="error">{{ error() }}</div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="field">
+        <label for="name">Name</label>
+        <input
+          id="name"
+          type="text"
+          formControlName="name"
+          placeholder="Your full name"
+        />
+        @if (form.get('name')?.invalid && form.get('name')?.touched) {
+          <span class="field-error">Minimum 2 characters required</span>
+        }
+      </div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="you@example.com"
+        />
+        @if (form.get('email')?.invalid && form.get('email')?.touched) {
+          <span class="field-error">Valid email is required</span>
+        }
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          placeholder="Your password"
+        />
+        @if (form.get('password')?.invalid && form.get('password')?.touched) {
+          <span class="field-error">Minimum 6 characters required</span>
+        }
+      </div>
+
+      <button type="submit" [disabled]="loading() || form.invalid">
+        {{ loading() ? 'Creating account...' : 'Register' }}
+      </button>
+    </form>
+
+    <p class="switch">
+      Already have an account? <a routerLink="/login">Sign in</a>
+    </p>
+  </div>
+</div>
