@@ -46,24 +46,30 @@ SMTP_USER="your_gmail@gmail.com"
 SMTP_PASS="your_gmail_app_password"
 ```
 
-### 3. Start the database
-
-```bash
-docker-compose up -d
-```
-
-### 4. Install backend dependencies
+### 3. Install backend dependencies
 
 ```bash
 cd apps/api
 npm install
 ```
 
-### 5. Run database migrations
+### 4. Start the database
 
 ```bash
-npx prisma migrate dev
+docker-compose up -d
 ```
+
+### 5. Run migrations, generateclient and seed
+
+```bash
+cd apps/api
+npx prisma migrate dev
+
+npx prisma generate
+
+npx prisma db seed
+```
+
 
 ### 6. Start the API
 
@@ -75,23 +81,15 @@ API runs at: `http://localhost:3000`
 
 Swagger docs at: `http://localhost:3000/api/docs`
 
-### 7. Generate prisma client and Seed the data
 
-````bash
-cd apps/api
-npx prisma generate
-npx prisma db seed
-````
-
-
-### 8. Install frontend dependencies
+### 7. Install frontend dependencies
 
 ```bash
 cd apps/web
 npm install
 ```
 
-### 9. Start the frontend
+### 8. Start the frontend
 
 ```bash
 npm start
