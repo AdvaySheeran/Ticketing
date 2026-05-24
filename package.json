@@ -5,12 +5,15 @@
     "apps/*"
   ],
   "scripts": {
-    "dev:api": "npm run start:dev --workspace=api",
-    "dev:web": "npm run start:dev --workspace=web",
+    "dev:api": "npm run start:dev -w api",
+    "dev:web": "npm run start -w web",
     "dev": "concurrently \"npm run dev:api\" \"npm run dev:web\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
 }
